@@ -64,8 +64,19 @@ namespace AlgorithmsDataStructures
             // находит индекс слота со значением, или -1
            
             int index = this.HashFun(value);
+            //int index = this.SeekSlot(value);
             if (slots[index] == value) return index;
-            return -1;
+            else
+            {
+                int firtsEnter = index;
+                while (slots[index] != value)
+                {
+                    index = (index + step) % size;
+                    if (index == firtsEnter) return -1;
+                }
+
+                return index;
+            }
         }
     }
 
