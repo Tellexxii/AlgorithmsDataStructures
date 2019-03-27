@@ -95,7 +95,10 @@ namespace AlgorithmsDataStructures
             // возвращает true, если set2 есть
             // подмножество текущего множества,
             // иначе false
-            return items.Keys.All(set2.items.Keys.Contains);
+            int size = this.Size();
+            var union = this.Union(set2);
+
+            return union.Size() == size;
         }
     }
 }
