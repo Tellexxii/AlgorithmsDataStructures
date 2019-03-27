@@ -67,7 +67,11 @@ namespace AlgorithmsDataStructures
         public PowerSet<T> Union(PowerSet<T> set2)
         {
             // объединение текущего множества и set2
-            var union = this;
+            var union = new PowerSet<T>();
+            foreach (var item in items.Keys)
+            {
+                union.Put(item);
+            }
             foreach (var item in set2.items.Keys)
             {
                 union.Put(item);
