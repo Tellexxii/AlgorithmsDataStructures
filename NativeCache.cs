@@ -32,7 +32,7 @@ namespace AlgorithmsDataStructures
             int hash_index = this.HashFun(key);
             if (capacity != size)
             {
-                return slots[this.HashFun(key)] != null;
+                return slots[hash_index] != null;
             }
             else
             {
@@ -87,35 +87,43 @@ namespace AlgorithmsDataStructures
                 }
             }
         }
-
-        public T Get(string key)
+        private bool IsKey(string key, out int index)
         {
-            //return this.IsKey(key) ? values[this.HashFun(key)] : default(T); int hash_index = this.HashFun(key);
-            if (IsKey(key))
+            int hash_index = this.HashFun(key);
+            if (capacity != size)
             {
-                int hash_index = this.HashFun(key);
-                if (capacity != size)
+                if (slots[hash_index] != null)
                 {
-                    return values[this.HashFun(key)];
+                    index = hash_index;
+                    return true;
                 }
                 else
                 {
-                    for (int i = 0; i < size; i++)
-                    {
-                        if (slots[(hash_index + i) % size].Equals(key))
-                        {
-                            return values[(hash_index + i) % size];
-                        }
-                    }
-
-                    return default(T);
-
+                    index = -1;
+                    return false;
                 }
             }
             else
             {
-                return default(T);
+                for (int i = 0; i < size; i++)
+                {
+                    if (slots[(hash_index + i) % size].Equals(key))
+                    {
+                        index = (hash_index + i) % size;
+                        return true;
+                    }
+                }
+
+                index = -1;
+                return false;
             }
+
+        }
+        public T Get(string key)
+        {
+            int hash_index;
+            bool isKey = IsKey(key, out hash_index);
+            return isKey ? values[hash_index] : default(T);
         }
 
     }
